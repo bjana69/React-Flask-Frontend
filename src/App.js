@@ -7,6 +7,8 @@ import './App.css';
 
 // MongoDB cluster Collection page address = https://cloud.mongodb.com/v2/67f7af789876603085f7016a#/metrics/replicaSet/67f7afd748d1e75c7a539b23/explorer/myDatabase/myCollection/find
 
+const BASE_URL = "https://flask-backend-pcfm.onrender.com";
+
 // 🏠 Home Page
 const Home = () => {
   const [name, setName] = useState("");
@@ -17,7 +19,7 @@ const Home = () => {
     if (!name.trim()) return;
 
     try {
-      await axios.post("http://127.0.0.1:5000/register", { name });
+      await axios.post(`${BASE_URL}/register`, { name });
       toast.success("✅ Name Registered Successfully!");
       setName("");
     } catch (error) {
@@ -65,7 +67,7 @@ const RegisteredNames = () => {
   }, []);
 
   const fetchData = () => {
-    axios.get("http://127.0.0.1:5000/userdata")
+    axios.get(`${BASE_URL}/userdata`)
       .then(response => {
         setNamesList(response.data || []);
       })
@@ -76,7 +78,7 @@ const RegisteredNames = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:5000/delete/${id}`)
+    axios.delete(`${BASE_URL}/delete/${id}`)
       .then(() => {
         setNamesList(prev => prev.filter(item => item._id !== id));
         toast.success("🗑️ Name deleted successfully!");
